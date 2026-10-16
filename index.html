@@ -1,5 +1,5 @@
 <!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>ParkBeat · Il Pesce fa Festa (Demo)</title><meta name="theme-color" content="#F1F2F4">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><title>ParkBeat · Mostrascambio (Demo)</title><meta name="theme-color" content="#F1F2F4">
 <style>@font-face {
   font-family: 'Bricolage Grotesque';
   font-style: normal;
@@ -21,8 +21,9 @@
 h1{font-size:30px;line-height:1.05;letter-spacing:-.8px;margin:24px 0 6px}h1 em{font-style:normal;color:var(--ac)}.sub{color:var(--mut);margin:0 0 18px;font-size:16px}
 h3{font-size:13px;text-transform:uppercase;letter-spacing:.7px;color:var(--mut);margin:26px 4px 10px}
 .card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:14px}
-.map svg{width:100%;height:auto;display:block;border-radius:14px}.pin{cursor:pointer}.pin circle.ring{transition:.2s}
-.pin.sel .bubble{fill:var(--ac)}.pin.sel text{fill:#fff}
+#map{height:320px;border-radius:14px;z-index:0}.lp{font-family:inherit}.lp b{font-size:15px}.lp .row{color:#6B7280;font-size:13px;margin:4px 0 8px}.lp button{width:100%;border:0;border-radius:10px;background:var(--ac);color:#fff;font:inherit;font-weight:700;padding:9px;cursor:pointer}
+.pm{background:#fff;border:2px solid var(--c);color:var(--c);font-weight:800;font-size:12px;border-radius:12px;padding:3px 7px;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,.2);transform:translate(-50%,-50%);display:inline-block}.pm.sel{background:var(--ac);border-color:var(--ac);color:#fff}
+.ev{font-size:22px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.3));transform:translate(-50%,-80%);display:inline-block}.leaflet-popup-content-wrapper{border-radius:16px}
 .areas{display:grid;gap:10px;margin-top:12px}
 .area{display:flex;gap:12px;align-items:center;background:#fff;border-radius:18px;box-shadow:var(--sh);padding:12px 14px;border:2px solid transparent;cursor:pointer;transition:.15s}
 .area.sel{border-color:var(--ac);background:#FFF8F7}.area .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-weight:800;color:#fff;flex:none}
@@ -49,24 +50,17 @@ input,select{width:100%;font:inherit;font-size:16px;padding:13px 14px;border-rad
 <div id="landing">
 <div class="hero"><svg viewBox="0 0 400 170"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF9A7A"/><stop offset=".55" stop-color="#E5534B"/><stop offset="1" stop-color="#7A2E5C"/></linearGradient></defs>
 <rect width="400" height="170" fill="url(#g)"/><circle cx="310" cy="70" r="30" fill="#FFD58A" opacity=".9"/>
-<path d="M0 125 Q100 110 200 125 T400 120 V170 H0Z" fill="#2B4E7E"/><path d="M0 140 Q100 128 200 142 T400 138 V170 H0Z" fill="#1E3A63"/>
-<g fill="#fff"><path d="M60 118 h70 l-10 14 h-52z"/><rect x="92" y="78" width="3" height="40"/><path d="M95 80 l26 30 h-26z" opacity=".9"/><path d="M90 84 l-20 26 h20z" opacity=".75"/></g>
-<g fill="#FFD58A"><path d="M230 140 q14 -10 28 0 q-14 10 -28 0z M258 140 l8 -6 v12z"/><path d="M280 152 q10 -7 20 0 q-10 7 -20 0z M300 152 l6 -4 v8z"/></g>
-<g stroke="#fff" stroke-width="1.5" opacity=".7"><path d="M20 30 h360" stroke-dasharray="2 10"/></g>
-<g fill="#FFF" opacity=".95"><circle cx="40" cy="30" r="4"/><circle cx="100" cy="30" r="4" fill="#FFD58A"/><circle cx="160" cy="30" r="4"/><circle cx="220" cy="30" r="4" fill="#FFD58A"/></g></svg>
-<div class="meta"><h2>Il Pesce fa Festa</h2><p>📅 29 ott – 2 nov 2026 · 📍 Cesenatico (FC)</p></div></div>
-<h1>Parcheggio garantito per <em>Il Pesce fa Festa</em></h1><p class="sub">Niente giri, niente multe, da 5 €.</p>
+<g fill="#2B4E7E"><rect y="120" width="400" height="50"/></g>
+<g><path d="M40 120 l30-30 l30 30z" fill="#fff"/><rect x="45" y="120" width="50" height="22" fill="#FFD58A"/><path d="M150 120 l35-36 l35 36z" fill="#FFD58A"/><rect x="156" y="120" width="58" height="22" fill="#fff"/><path d="M270 120 l30-30 l30 30z" fill="#fff"/><rect x="275" y="120" width="50" height="22" fill="#FFD58A"/></g>
+<g fill="#16181D" opacity=".8"><circle cx="120" cy="150" r="7"/><circle cx="240" cy="150" r="7"/><rect x="108" y="140" width="144" height="12" rx="6"/></g>
+<g stroke="#fff" stroke-width="1.5" opacity=".7"><path d="M20 30 h360" stroke-dasharray="2 10"/></g></svg>
+<div class="meta"><h2>Mostrascambio</h2><p>📅 7–8 nov 2026 <small>(data d'esempio)</small> · 📍 Via Kennedy 45, Gambettola (FC)</p></div></div>
+<h1>Parcheggio garantito per <em>Mostrascambio</em></h1><p class="sub">Niente giri, niente multe, da 5 €.</p>
 <h3>Scegli dove parcheggiare</h3>
-<div class="card map"><svg viewBox="0 0 360 240" id="map">
-<rect width="360" height="240" fill="#EAF1E6"/><path d="M0 0 H360 V70 Q250 90 180 60 T0 80Z" fill="#BFDDF0"/><text x="16" y="28" font-size="11" fill="#5A88A8" font-weight="600">Mare Adriatico</text>
-<path d="M175 60 L190 240" stroke="#BFDDF0" stroke-width="14"/><text x="196" y="200" font-size="9" fill="#5A88A8" transform="rotate(84 196 200)">Porto Canale</text>
-<g stroke="#fff" stroke-width="7" fill="none" stroke-linecap="round"><path d="M0 120 H360"/><path d="M90 80 V240"/><path d="M290 85 V240"/><path d="M0 190 H360"/></g>
-<rect x="290" y="212" width="70" height="28" fill="#D9CBB0"/><text x="300" y="232" font-size="9" fill="#7A6A4A">ferrovia</text>
-<g><circle cx="182" cy="100" r="14" fill="#E5534B" opacity=".18"/><circle cx="182" cy="100" r="6" fill="#E5534B"/><text x="182" y="88" text-anchor="middle" font-size="10" font-weight="700" fill="#E5534B">🎉 Festa</text></g>
-</svg>
+<div class="card map"><div id="map"></div>
 <div class="areas" id="areas"></div></div>
-<h3>I tuoi dati</h3>
-<div class="card"><label>Orario di arrivo</label><select id="time"><option>29 ott · 10:00</option><option>30 ott · 18:00</option><option>31 ott · 11:00</option><option selected>1 nov · 12:00</option><option>1 nov · 18:00</option><option>2 nov · 10:00</option></select>
+<h3 id="step">I tuoi dati</h3>
+<div class="card"><div id="booking"></div><label>Orario di arrivo</label><select id="time"><option>7 nov · 07:00</option><option selected>7 nov · 09:00</option><option>7 nov · 12:00</option><option>8 nov · 07:00</option><option>8 nov · 09:00</option><option>8 nov · 12:00</option></select>
 <label>Targa <small>(facoltativa)</small></label><input id="plate" placeholder="AB123CD" autocapitalize="characters" maxlength="8">
 <label>Email o WhatsApp</label><input id="contact" placeholder="nome@email.it o +39 333…" inputmode="email"></div>
 <h3>Pagamento</h3>
@@ -79,12 +73,12 @@ input,select{width:100%;font:inherit;font-size:16px;padding:13px 14px;border-rad
 </div>
 <div id="confirm" class="c"><div class="ok">✓</div><h1 style="margin:6px 0">Posto confermato!</h1><p class="sub">Mostra il QR all'ingresso dell'area.</p>
 <div class="qr"><div id="qr"></div><div class="kv"><div><small>Area</small><b id="cArea"></b></div><div><small>Arrivo</small><b id="cTime"></b></div><div><small>Targa</small><b id="cPlate"></b></div><div><small>Codice</small><b id="cCode"></b></div></div></div>
-<a class="btn red" id="dir" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Cesenatico">📍 Indicazioni</a>
+<a class="btn red" id="dir" target="_blank" rel="noopener" href="#">📍 Indicazioni</a>
 <button class="btn carta" onclick="toast('Aggiunto al Wallet (demo)')">Aggiungi al wallet</button>
 <button class="btn" style="background:none;color:var(--mut);margin-top:6px" onclick="back()">← Torna all'evento</button></div>
 <p class="foot">ParkBeat · Demo dimostrativa · evento d'esempio</p></div>
-<div class="modal" id="m" onclick="if(event.target===this)closeM()"><div class="sheet"><button class="x" onclick="closeM()">✕</button><h2>Diventa host</h2><p class="sub" style="font-size:14px">Affitta il tuo cortile o terreno durante Il Pesce fa Festa. Guadagno medio stimato: 120 €/giorno.</p>
-<label>Nome</label><input placeholder="Mario Rossi"><label>Indirizzo dello spazio</label><input placeholder="Via …, Cesenatico"><label>Posti auto disponibili</label><input type="number" value="4" min="1"><label>Telefono / WhatsApp</label><input placeholder="+39 …">
+<div class="modal" id="m" onclick="if(event.target===this)closeM()"><div class="sheet"><button class="x" onclick="closeM()">✕</button><h2>Diventa host</h2><p class="sub" style="font-size:14px">Affitta il tuo cortile o terreno durante Mostrascambio. Guadagno medio stimato: 120 €/giorno.</p>
+<label>Nome</label><input placeholder="Mario Rossi"><label>Indirizzo dello spazio</label><input placeholder="Via …, Gambettola"><label>Posti auto disponibili</label><input type="number" value="4" min="1"><label>Telefono / WhatsApp</label><input placeholder="+39 …">
 <button class="btn red" style="margin-top:16px" onclick="closeM();toast('Richiesta inviata (demo) – ti ricontattiamo!')">Candidati</button></div></div>
 <div class="toast" id="toast"></div>
 <script>//---------------------------------------------------------------------
@@ -2385,25 +2379,34 @@ var qrcode = function() {
     return qrcode;
 }));
 </script><script>
-const A=[{id:'porto',n:'Area Porto',type:'of',p:8,min:4,left:12,x:150,y:150,c:'#2563EB',lat:'Porto Canale Cesenatico'},
-{id:'staz',n:'Area Stazione',type:'of',p:5,min:12,left:31,x:320,y:200,c:'#2563EB',lat:'Stazione di Cesenatico'},
-{id:'cort',n:'Cortile via Saffi',type:'pv',p:7,min:6,left:3,x:60,y:150,c:'#15803D',lat:'Via Saffi Cesenatico'},
-{id:'terr',n:'Terreno agricolo',type:'pv',p:5,min:15,left:18,x:240,y:225,c:'#15803D',lat:'Cesenatico'}];
-let sel=A[0];const $=i=>document.getElementById(i),NS='http://www.w3.org/2000/svg';
-function draw(){const m=$('map');m.querySelectorAll('.pin').forEach(e=>e.remove());
-A.forEach(a=>{const g=document.createElementNS(NS,'g');g.setAttribute('class','pin'+(a===sel?' sel':''));g.onclick=()=>pick(a);
-g.innerHTML=`<path d="M${a.x} ${a.y} l-6 -9 h12z" fill="${a===sel?'#E5534B':'#fff'}"/><rect class="bubble" x="${a.x-30}" y="${a.y-33}" width="60" height="24" rx="12" fill="#fff" stroke="${a.c}" stroke-width="1.5"/><text x="${a.x}" y="${a.y-17}" text-anchor="middle" font-size="11" font-weight="700" fill="${a.c}">P ${a.p} €</text>`;m.appendChild(g)});
-$('areas').innerHTML=A.map(a=>`<div class="area${a===sel?' sel':''}" onclick="pick(A.find(z=>z.id=='${a.id}'))"><div class="ic" style="background:${a.c}">P</div><div class="t"><div class="n">${a.n}<span class="tag ${a.type}">${a.type=='of'?'UFFICIALE':'PRIVATO'}</span></div><div class="d">🚶 ${a.min} min a piedi</div></div><div><div class="pr">${a.p} €</div><div class="left">ne restano ${a.left}</div></div></div>`).join('');
+const EV=[44.1179956,12.3433814];
+const A=[{id:'foro',n:'Parcheggio Foro Boario',addr:'Via Foro Boario',type:'of',p:6,m:477,left:14,ll:[44.119034,12.337572],c:'#2563EB'},
+{id:'nievo',n:'Parcheggio Scuola Nievo',addr:'Vicolo XXV Aprile (P.le 15 Ottobre 1944)',type:'of',p:5,m:708,left:22,ll:[44.122394,12.336944],c:'#2563EB'},
+{id:'buozzi',n:'Parcheggio Via Buozzi',addr:'Via Bruno Buozzi',type:'of',p:5,m:825,left:47,ll:[44.115352,12.333713],c:'#2563EB'},
+{id:'cort',n:'Cortile via Viole',addr:'Via Viole (host d\'esempio)',type:'pv',p:8,m:406,left:3,ll:[44.12102,12.346252],c:'#15803D'},
+{id:'terr',n:'Terreno via G. Masina',addr:'Via Giulietta Masina (host d\'esempio)',type:'pv',p:6,m:376,left:11,ll:[44.116097,12.347295],c:'#15803D'}];
+A.forEach(a=>a.min=Math.max(1,Math.round(a.m/80)));
+let sel=A[0];const $=i=>document.getElementById(i);let map,mk={};
+function initMap(){if(!window.L){$('map').innerHTML='<p style="padding:20px;color:#6B7280">Mappa non disponibile offline. Usa la lista qui sotto.</p>';return}
+map=L.map('map',{scrollWheelZoom:false,tap:true}).setView([44.1185,12.3415],15);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(map);
+L.marker(EV,{icon:L.divIcon({className:'',html:'<span class="ev">🛠️</span>',iconSize:[0,0]})}).addTo(map).bindPopup('<div class="lp"><b>Mostrascambio (demo)</b><div class="row">Via Kennedy 45, Gambettola</div></div>');
+A.forEach(a=>{mk[a.id]=L.marker(a.ll,{icon:icon(a)}).addTo(map).bindPopup(()=>`<div class="lp"><b>${a.n}</b><div class="row">${a.addr}<br>${a.p} € · 🚶 ${a.min} min a piedi · ne restano ${a.left}</div><button onclick="choose('${a.id}')">Scegli questa area</button></div>`)});
+map.fitBounds(L.latLngBounds([EV,...A.map(a=>a.ll)]).pad(.12))}
+function icon(a){return L.divIcon({className:'',iconSize:[0,0],html:`<span class="pm${a===sel?' sel':''}" style="--c:${a.c}">P ${a.p} €</span>`})}
+function choose(id){pick(A.find(z=>z.id==id));map&&map.closePopup();$('step').scrollIntoView({behavior:'smooth'})}
+function draw(){if(map)A.forEach(a=>mk[a.id].setIcon(icon(a)));
+$('areas').innerHTML=A.map(a=>`<div class="area${a===sel?' sel':''}" onclick="pick(A.find(z=>z.id=='${a.id}'),1)"><div class="ic" style="background:${a.c}">P</div><div class="t"><div class="n">${a.n}<span class="tag ${a.type}">${a.type=='of'?'PUBBLICO':'PRIVATO'}</span></div><div class="d">🚶 ${a.min} min · ${a.addr}</div></div><div><div class="pr">${a.p} €</div><div class="left">ne restano ${a.left}</div></div></div>`).join('');
 $('selname').textContent=sel.n;$('selprice').textContent=sel.p+' €'}
-function pick(a){sel=a;draw()}
+function pick(a,pan){sel=a;draw();if(pan&&map)map.panTo(a.ll)}
 function pay(m){const c=$('contact').value.trim();if(!c){toast('Inserisci email o WhatsApp');$('contact').focus();return}
 document.querySelectorAll('.apple,.carta').forEach(b=>b.disabled=true);toast(m+': elaborazione (demo)…');
 setTimeout(()=>{const code='PB-'+Math.random().toString(36).slice(2,8).toUpperCase(),pl=$('plate').value.trim().toUpperCase()||'—';
 const q=qrcode(0,'M');q.addData(`PARKBEAT DEMO|${code}|${sel.n}|${$('time').value}|${pl}`);q.make();$('qr').innerHTML=q.createSvgTag({cellSize:6,margin:2,scalable:true});
 $('cArea').textContent=sel.n;$('cTime').textContent=$('time').value;$('cPlate').textContent=pl;$('cCode').textContent=code;
-$('dir').href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(sel.lat);
-$('landing').style.display='none';$('confirm').style.display='block';scrollTo(0,0);document.querySelectorAll('.apple,.carta').forEach(b=>b.disabled=false)},900)}
-function back(){$('confirm').style.display='none';$('landing').style.display='block'}
+$('dir').href='https://www.google.com/maps/dir/?api=1&destination='+sel.ll.join(',')+'&travelmode=driving';
+document.getElementById('toast').style.display='none';$('landing').style.display='none';$('confirm').style.display='block';scrollTo(0,0);document.querySelectorAll('.apple,.carta').forEach(b=>b.disabled=false)},900)}
+function back(){setTimeout(()=>map&&map.invalidateSize(),50);$('confirm').style.display='none';$('landing').style.display='block'}
 function openM(){$('m').classList.add('on')}function closeM(){$('m').classList.remove('on')}
 let tt;function toast(t){const e=$('toast');e.textContent=t;e.style.display='block';clearTimeout(tt);tt=setTimeout(()=>e.style.display='none',2200)}
-draw();</script></body></html>
+initMap();draw();</script></body></html>

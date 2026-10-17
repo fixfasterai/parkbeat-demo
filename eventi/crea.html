@@ -4,24 +4,31 @@
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><link rel="stylesheet" href="style.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="data.js"></script><script src="common.js"></script>
-</head><body>
+</head><body class="crea">
 <!-- DEMO: nessun backend, SMS simulato (codice 123456). Flusso a step, validazione lato client, salvataggio in localStorage ('pb_posti'). -->
 <header class="hdr"><div class="in"><a class="brand" href="./"><span class="mark">P</span>ParkBeat</a><a class="lnk" href="./">Esci</a></div><div class="prog"><i id="pg"></i></div></header>
 <section class="band g" id="evb" style="padding-top:14px;padding-bottom:14px"><div class="in evh" id="evh"></div></section>
 
 <div class="scr" data-s="0">
+ <div class="lh" id="lh"><img id="lhi" alt=""><div class="lho"><div class="lk" id="lhk">Offri parcheggio</div><div class="ln" id="lhn">Eventi in Romagna</div><div class="lm" id="lhm"></div></div></div>
  <section class="band w"><div class="in">
-  <h1>Guadagna con il tuo spazio</h1><p class="sub">Affitta il tuo posto auto a chi va all'evento. Prezzo e posti li decidi tu.</p>
-  <div id="evpick"><label class="lbl" for="evq" style="margin-top:20px">Per quale evento?</label><input id="evq" list="evl" placeholder="Cerca evento, comune o data" autocomplete="off"><datalist id="evl"></datalist><div class="err">Scegli un evento dall'elenco</div></div>
+  <h1 class="lt" id="lt">Hai uno spazio privato dove far parcheggiare per gli eventi?</h1>
+  <p class="ls">Comincia a guadagnare da subito.</p>
+  <div class="big"><b>6 €</b><span>a vettura</span></div><p class="fine" style="margin-top:2px">stima media nella tua zona</p>
+  <div class="trust">
+   <div><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Prezzo e orari li decidi tu</div>
+   <div><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Pagamento sicuro online</div>
+   <div><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>Pubblichi in 2 minuti</div>
+  </div>
+  <div id="evpick"><label class="lbl" for="evq" style="margin-top:22px">Per quale evento?</label><input id="evq" list="evl" placeholder="Cerca evento, comune o data" autocomplete="off"><datalist id="evl"></datalist><div class="err">Scegli un evento dall'elenco</div></div>
  </div></section>
- <section class="band g"><div class="in"><div class="earn"><span>4 posti × 6 €</span><b>19 €</b></div><p class="fine">Al netto del 20% di commissione. Iscrizione gratis.</p></div></section>
 </div>
 
 <div class="scr" data-s="1">
  <section class="band w"><div class="in">
-  <h2 class="q">Dov'è il posto?</h2><p class="sub">L'indirizzo lo vede solo chi prenota.</p>
-  <div id="fInd" style="margin-top:16px"><div class="arow"><input id="ind" placeholder="Via e numero civico, comune" autocomplete="street-address"><button type="button" id="geo">Cerca</button></div><div class="err">Inserisci l'indirizzo</div></div>
-  <p class="fine" id="geoMsg">Poi sposta il pin sull'ingresso.</p>
+  <h2 class="q">Dove si trova il tuo parcheggio?</h2>
+  <div id="fInd" style="margin-top:16px"><div class="arow"><input id="ind" placeholder="Inserisci l'indirizzo" autocomplete="street-address"><button type="button" id="geo">Cerca</button></div><div class="err">Inserisci l'indirizzo</div></div>
+  <p class="fine" id="geoMsg"></p>
  </div></section>
  <section class="band flush"><div id="map" class="map" style="height:380px"></div></section>
 </div>
@@ -66,7 +73,9 @@ $('evl').innerHTML=up.map(e=>'<option value="'+esc(lab(e))+'">').join('');
 let ev=window.EVENTI.find(e=>e.id===new URLSearchParams(location.search).get('evento'))||null;
 const map=L.map('map',{zoomControl:false,scrollWheelZoom:false}).setView([44.137,12.243],14);tiles(map);
 const pin=L.marker([44.137,12.243],{draggable:true,icon:L.divIcon({className:'',html:'<div class="pin"></div>',iconSize:[0,0]})}).addTo(map);
-function showEv(){$('evb').style.display=ev?'':'none';$('evpick').style.display=ev?'none':'';if(!ev)return;const d=pd(shown(ev));
+function hero(){const c=ev?ev.cat:'mercato';const ph=(c==='mercato'||c==='fiera');$('lhi').src=ph?'img/hero-mercato.jpg':'img/placeholder_'+c+'.svg';$('lh').className='lh '+(ph?'photo':'art');
+ if(ev){$('lhk').textContent=CAT[ev.cat];$('lhn').textContent=ev.nome;$('lhm').textContent=range(ev)+' · '+ev.comune;$('lt').textContent='Hai uno spazio privato dove far parcheggiare per '+ev.nome+'?'}}
+function showEv(){hero();$('evb').style.display=(ev&&s>0)?'':'none';$('evpick').style.display=ev?'none':'';if(!ev)return;const d=pd(shown(ev));
  $('evh').innerHTML='<div class="dt"><b>'+d.getDate()+'</b><small>'+MESI[d.getMonth()]+'</small></div><div><div class="k">Parcheggio per</div><div class="n">'+esc(ev.nome)+'</div><div class="m">'+range(ev)+' · '+esc(ev.comune)+'</div></div>';
  if(ev.lat!=null&&!placed){map.setView([ev.lat,ev.lon],15);pin.setLatLng([ev.lat,ev.lon])}}
 $('evq').addEventListener('input',()=>{const e=up.find(e=>lab(e)===$('evq').value);if(e){ev=e;$('evpick').classList.remove('bad');showEv()}});
@@ -83,9 +92,9 @@ async function geocode(){const q=$('ind').value.trim();if(!q)return;$('geoMsg').
   if(j[0]){const ll=[+j[0].lat,+j[0].lon];pin.setLatLng(ll);map.setView(ll,17);placed=true;$('geoMsg').textContent='Trovato. Trascina il pin sull\'ingresso se serve.'}else $('geoMsg').textContent='Non trovato: tocca la mappa per posizionare il pin.'}
  catch(e){$('geoMsg').textContent='Ricerca non disponibile: tocca la mappa per posizionare il pin.'}}
 $('geo').onclick=geocode;$('ind').addEventListener('keydown',x=>{if(x.key==='Enter'){x.preventDefault();geocode()}});
-function ui(){document.querySelectorAll('.scr').forEach(x=>x.classList.toggle('on',+x.dataset.s===s));$('pg').style.width=(Math.min(s,N)/N*100)+'%';
+function ui(){$('evb').style.display=(ev&&s>0)?'':'none';$('pg').parentElement.style.display=s===0?'none':'';document.body.classList.toggle('lp0',s===0);document.querySelectorAll('.scr').forEach(x=>x.classList.toggle('on',+x.dataset.s===s));$('pg').style.width=(Math.min(s,N)/N*100)+'%';
  $('bk').style.visibility=s>0&&s<5?'visible':'hidden';$('bar').style.display=s===5?'none':'';
- $('nx').textContent=s===0?'Inizia':s===3?'Pubblica il mio posto':s===4?'Verifica':'Avanti';
+ $('nx').textContent=s===0?'Inserisci il tuo posto':s===3?'Pubblica il mio posto':s===4?'Verifica':'Avanti';
  if(s===1)setTimeout(()=>map.invalidateSize(),0);scrollTo(0,0)}
 const ok=(id,c)=>{$(id).classList.toggle('bad',!c);return c};
 function valid(){if(s===0)return ok('evpick',!!ev);if(s===1)return ok('fInd',$('ind').value.trim().length>3);

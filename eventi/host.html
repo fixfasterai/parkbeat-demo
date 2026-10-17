@@ -2,6 +2,7 @@
 <title>Area host · ParkBeat</title><meta name="theme-color" content="#FFFFFF">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css"><link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
 <link rel="stylesheet" href="style.css">
 <script src="data.js"></script><script src="common.js"></script>
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
@@ -23,22 +24,22 @@
  <section class="band w"><div class="in">
   <p class="sec" id="hi">Ciao</p>
   <div class="sum"><div><span>Incasso totale</span><b id="tInc"></b></div><div><span>Pass venduti</span><b id="tPass"></b></div></div>
-  <button class="scanb" id="scan" type="button" style="margin-top:20px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M8 12h8"/></svg>Scansiona pass</button>
+  <button class="scanb" id="scan" type="button" style="margin-top:20px"><i class="ph-fill ph-qr-code"></i>Scansiona pass</button>
  </div></section>
  <section class="band g"><div class="in" id="spots"></div></section>
  <section class="band w"><div class="in" id="pay">
-  <h2 class="s">Pagamenti</h2><p class="sub">Ricevi gli incassi dopo ogni evento.</p>
+  <h2 class="s"><i class="ph ph-wallet"></i> Pagamenti</h2><p class="sub">Ricevi gli incassi dopo ogni evento.</p>
   <div id="fIb"><label class="lbl" for="iban">IBAN</label><input id="iban" placeholder="IT60 X054 2811 1010 0000 0123 456" autocomplete="off" style="text-transform:uppercase"><div class="err">IBAN non valido</div></div>
-  <button class="save" id="saveIb" type="button">Salva IBAN</button><p class="fine" id="ibMsg"></p>
+  <button class="save" id="saveIb" type="button"><i class="ph ph-bank"></i> Salva IBAN</button><p class="fine" id="ibMsg"></p>
  </div></section>
 </div>
 
 <div id="det" style="display:none"><section class="band w"><div class="in" id="detIn"></div></section></div>
 
-<div class="ovl" id="ovl"><div class="top"><b>Scansiona pass</b><button class="x" id="cls" type="button">Chiudi</button></div>
+<div class="ovl" id="ovl"><div class="top"><b>Scansiona pass</b><button class="x" id="cls" type="button" aria-label="Chiudi"><i class="ph ph-x"></i></button></div>
  <div style="flex:1;position:relative;min-height:0;background:#000;overflow:hidden"><div id="reader" style="position:absolute;inset:0"></div><div class="frame"></div></div>
- <div class="bot"><p id="camMsg">Inquadra il QR del pass</p><button class="ghost" id="sim" type="button">Simula scansione</button></div></div>
-<div class="valid" id="valid"><div class="ic"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-10"/></svg></div>
+ <div class="bot"><p id="camMsg">Inquadra il QR del pass</p><button class="ghost" id="sim" type="button"><i class="ph ph-scan"></i> Simula scansione</button></div></div>
+<div class="valid" id="valid"><div class="ic"><i class="ph-fill ph-check-circle"></i></div>
  <h1>Pass valido ✓</h1><p id="vEv"></p><div class="pl" id="vPl"></div><button id="again" type="button">Scansiona un altro</button></div>
 
 <section class="band g"><div class="in foot">ParkBeat · Demo</div></section>
@@ -66,15 +67,15 @@ let S=[];
 function show(){$('out').style.display=host?'':'none';$('login').style.display=host?'none':'';$('home').style.display=host?'':'none';$('det').style.display='none';if(!host)return;
  S=spots();$('hi').textContent='Ciao'+(host.nome?' '+host.nome.split(' ')[0]:'')+' · la tua area';
  $('tInc').textContent=Math.round(S.reduce((a,p)=>a+p.venduti*p.prezzo*.8,0))+' €';$('tPass').textContent=S.reduce((a,p)=>a+p.venduti,0);
- $('spots').innerHTML='<h2 class="s">I tuoi posti</h2>'+S.map((p,i)=>{const d=pd(shown(p.e));return '<a class="row" href="#" data-i="'+i+'"><div class="dt" style="background:#fff"><b>'+d.getDate()+'</b><small>'+MESI[d.getMonth()]+'</small></div><div class="rt"><div class="rn">'+esc(p.e.nome)+'</div><div class="rm">'+p.posti+' posti auto disponibili · '+p.venduti+' venduti</div><div class="tags"><span class="tag np">Online</span>'+(p.demo?'<span class="ex">Esempio</span>':'')+'</div></div><b style="font-size:18px">'+p.prezzo+' €</b></a>'}).join('');
+ $('spots').innerHTML='<h2 class="s">I tuoi posti</h2>'+S.map((p,i)=>{const d=pd(shown(p.e));return '<a class="row" href="#" data-i="'+i+'"><div class="dt" style="background:#fff"><b>'+d.getDate()+'</b><small>'+MESI[d.getMonth()]+'</small></div><div class="rt"><div class="rn">'+esc(p.e.nome)+'</div><div class="rm">'+p.posti+' posti auto disponibili · '+p.venduti+' venduti</div><div class="tags"><span class="tag np"><i class="ph-fill ph-circle" style="font-size:8px"></i> Online</span>'+(p.demo?'<span class="ex">Esempio</span>':'')+'</div></div><b style="font-size:18px">'+p.prezzo+' €</b></a>'}).join('');
  document.querySelectorAll('#spots .row').forEach(r=>r.onclick=x=>{x.preventDefault();det(S[+r.dataset.i])});
  const ib=localStorage.getItem('pb_iban');if(ib){$('iban').value=ib;$('ibMsg').textContent='IBAN salvato.'}}
 function det(p){$('home').style.display='none';$('det').style.display='';scrollTo(0,0);
- $('detIn').innerHTML='<button class="bk2" id="bkh" type="button">‹ I tuoi posti</button><h2 class="s">'+esc(p.e.nome)+'</h2><p class="sub">'+range(p.e)+' · '+esc(p.indirizzo)+'</p>'
+ $('detIn').innerHTML='<button class="bk2" id="bkh" type="button"><i class="ph ph-caret-left"></i> I tuoi posti</button><h2 class="s">'+esc(p.e.nome)+'</h2><p class="sub">'+range(p.e)+' · '+esc(p.indirizzo)+'</p>'
  +'<div class="sum" style="margin:18px 0 6px"><div><span>Venduti</span><b>'+p.venduti+' / '+p.posti+'</b></div><div><span>Incasso</span><b>'+Math.round(p.venduti*p.prezzo*.8)+' €</b></div></div>'
  +'<div style="display:flex;justify-content:space-between;align-items:center;margin-top:18px"><p class="sec" style="margin:0">Prenotazioni</p><span class="ex">Dati di esempio</span></div>'
- +(p.bk.length?p.bk.map(b=>'<div class="row"><div class="rt"><div class="rn">'+b.n+'</div><div class="rm">Arrivo previsto '+b.o+'</div></div><span style="font-family:ui-monospace,Menlo,monospace;font-weight:700;background:var(--bg);padding:5px 9px;border-radius:8px">'+b.t+'</span></div>').join(''):'<p class="sub">Nessuna prenotazione ancora.</p>')
- +'<button class="scanb" type="button" id="scan2" style="margin-top:20px">Scansiona pass</button>';
+ +(p.bk.length?p.bk.map(b=>'<div class="row"><div class="rt"><div class="rn">'+b.n+'</div><div class="rm"><i class="ph ph-clock"></i> Arrivo previsto '+b.o+'</div></div><span style="font-family:ui-monospace,Menlo,monospace;font-weight:700;background:var(--bg);padding:5px 9px;border-radius:8px">'+b.t+'</span></div>').join(''):'<p class="sub">Nessuna prenotazione ancora.</p>')
+ +'<button class="scanb" type="button" id="scan2" style="margin-top:20px"><i class="ph-fill ph-qr-code"></i>Scansiona pass</button>';
  $('bkh').onclick=show;$('scan2').onclick=openScan}
 // IBAN
 $('saveIb').onclick=()=>{const v=$('iban').value.replace(/\s/g,'').toUpperCase(),ok=/^IT\d{2}[A-Z]\d{10}[0-9A-Z]{12}$/.test(v);$('fIb').classList.toggle('bad',!ok);if(!ok)return;localStorage.setItem('pb_iban',v);$('ibMsg').textContent='IBAN salvato. Riceverai i pagamenti qui.'};

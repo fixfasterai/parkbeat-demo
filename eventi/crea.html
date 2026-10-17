@@ -2,11 +2,12 @@
 <title>Crea il tuo parcheggio e guadagna · ParkBeat</title><meta name="theme-color" content="#FFFFFF">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css"><link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="style.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="data.js"></script><script src="common.js"></script>
 </head><body class="crea">
 <!-- DEMO: nessun backend, SMS simulato (codice 123456). Flusso a step, validazione lato client, salvataggio in localStorage ('pb_posti'). -->
-<header class="hdr"><div class="in"><a class="brand" href="./"><span class="mark">P</span>ParkBeat</a><a class="lnk" href="./">Esci</a></div><div class="prog"><i id="pg"></i></div></header>
+<header class="hdr"><div class="in"><a class="brand" href="./"><span class="mark">P</span>ParkBeat</a><a class="lnk" href="./"><i class="ph ph-x"></i> Esci</a></div><div class="prog"><i id="pg"></i></div></header>
 <section class="band g" id="evb" style="padding-top:14px;padding-bottom:14px"><div class="in evh" id="evh"></div></section>
 
 <div class="scr" data-s="0">
@@ -16,9 +17,9 @@
   <p class="ls">Comincia a guadagnare da subito.</p>
   <div class="big"><b>6 €</b><span>a vettura</span></div><p class="fine" style="margin-top:2px">stima media nella tua zona</p>
   <div class="trust">
-   <div><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Prezzo e orari li decidi tu</div>
-   <div><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Pagamento sicuro online</div>
-   <div><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>Pubblichi in 2 minuti</div>
+   <div><i class="ph ph-clock ti"></i>Prezzo e orari li decidi tu</div>
+   <div><i class="ph ph-lock-simple ti"></i>Pagamento sicuro online</div>
+   <div><i class="ph ph-lightning ti"></i>Pubblichi in 2 minuti</div>
   </div>
   <div id="evpick"><label class="lbl" for="evq" style="margin-top:22px">Per quale evento?</label><input id="evq" list="evl" placeholder="Cerca evento, comune o data" autocomplete="off"><datalist id="evl"></datalist><div class="err">Scegli un evento dall'elenco</div></div>
  </div></section>
@@ -27,7 +28,7 @@
 <div class="scr" data-s="1">
  <section class="band w"><div class="in">
   <h2 class="q">Dove si trova il tuo parcheggio?</h2>
-  <div id="fInd" style="margin-top:16px"><div class="arow"><input id="ind" placeholder="Inserisci l'indirizzo" autocomplete="street-address"><button type="button" id="geo">Cerca</button></div><div class="err">Inserisci l'indirizzo</div></div>
+  <div id="fInd" style="margin-top:16px"><div class="arow"><input id="ind" placeholder="Inserisci l'indirizzo" autocomplete="street-address"><button type="button" id="geo"><i class="ph ph-magnifying-glass"></i> Cerca</button></div><div class="err">Inserisci l'indirizzo</div></div>
   <p class="fine" id="geoMsg"></p>
  </div></section>
  <section class="band flush"><div id="map" class="map" style="height:380px"></div></section>
@@ -37,8 +38,8 @@
  <section class="band w"><div class="in">
   <h2 class="q">Posti e prezzo</h2><p class="sub">Puoi cambiarli quando vuoi.</p>
   <div style="margin-top:10px">
-   <div class="stp"><div><b>Posti auto disponibili</b></div><div class="ctr"><button type="button" data-k="posti" data-d="-1">−</button><output id="oPo"></output><button type="button" data-k="posti" data-d="1">+</button></div></div>
-   <div class="stp"><div><b>Prezzo per auto</b><span>In zona 5–8 €</span></div><div class="ctr"><button type="button" data-k="prezzo" data-d="-1">−</button><output id="oPr"></output><button type="button" data-k="prezzo" data-d="1">+</button></div></div>
+   <div class="stp"><div><b>Posti auto disponibili</b></div><div class="ctr"><button type="button" data-k="posti" data-d="-1" aria-label="Meno"><i class="ph ph-minus"></i></button><output id="oPo"></output><button type="button" data-k="posti" data-d="1" aria-label="Più"><i class="ph ph-plus"></i></button></div></div>
+   <div class="stp"><div><b>Prezzo per auto</b><span>In zona 5–8 €</span></div><div class="ctr"><button type="button" data-k="prezzo" data-d="-1" aria-label="Meno"><i class="ph ph-minus"></i></button><output id="oPr"></output><button type="button" data-k="prezzo" data-d="1" aria-label="Più"><i class="ph ph-plus"></i></button></div></div>
   </div></div></section>
  <section class="band g"><div class="in"><div class="earn"><span>Guadagni circa</span><b id="eR"></b></div><p class="fine" id="eF"></p></div></section>
 </div>
@@ -58,7 +59,7 @@
 </div></section></div>
 
 <div class="scr" data-s="5"><section class="band w"><div class="in okc">
- <div class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M5 12l5 5 9-10"/></svg></div>
+ <div class="ic"><i class="ph-fill ph-check-circle"></i></div>
  <h1>Il tuo posto è online!</h1><p class="sub" id="okt"></p>
  <a class="btn" href="host.html">Vai alla tua area</a>
  <p style="margin:14px 0 0"><a id="okb" href="./" style="font-weight:600">Vedi il tuo posto sull'evento</a></p>

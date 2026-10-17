@@ -4,12 +4,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css"><link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
 <link rel="stylesheet" href="style.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <script src="data.js"></script><script src="common.js"></script>
 </head><body>
-<header class="hdr"><div class="in"><a class="brand" href="./"><span class="mark">P</span>ParkBeat</a><span style="display:flex;gap:16px"><a class="lnk" href="crea.html">Offri un posto</a><a class="lnk" id="hostlnk" href="host.html" style="color:#CE147D">Accedi</a></span></div></header>
+<header class="hdr"><div class="in"><a class="brand" href="./"><span class="mark">P</span>ParkBeat</a><span style="display:flex;gap:16px"><a class="lnk" href="crea.html"><i class="ph ph-plus-circle"></i> Offri un posto</a><a class="lnk" id="hostlnk" href="host.html" style="color:#CE147D">Accedi</a></span></div></header>
 <section class="band w"><div class="in">
 <h1>Eventi in Romagna</h1><p class="sub">Partite, fiere, mercati e sagre a Forlì‑Cesena, Ravenna e Rimini. Scegli l'evento e prenota il parcheggio da chi abita vicino.</p>
 </div></section>
@@ -27,7 +28,7 @@
 const E=window.EVENTI.slice().sort((a,b)=>shown(a).localeCompare(shown(b))||a.nome.localeCompare(b.nome));
 let cat='',sel=null;
 const chips=document.getElementById('chips');
-[['','Tutti'],...Object.entries(CAT)].forEach(([k,v])=>{const b=document.createElement('button');b.className='chip'+(k===''?' on':'');b.textContent=v;b.onclick=()=>{cat=k;[...chips.children].forEach(c=>c.classList.toggle('on',c===b));render()};chips.appendChild(b)});
+[['','Tutti'],...Object.entries(CAT)].forEach(([k,v])=>{const b=document.createElement('button');b.className='chip'+(k===''?' on':'');b.innerHTML=(k?'<i class="ph '+(k===cat?'ph-fill':'')+' ph-'+ICO[k]+'"></i>':'')+v;b.dataset.k=k;b.onclick=()=>{cat=k;[...chips.children].forEach(c=>{c.classList.toggle('on',c===b);const i=c.querySelector('i');if(i)i.className=(c===b?'ph-fill':'ph')+' ph-'+ICO[c.dataset.k]});render()};chips.appendChild(b)});
 const map=L.map('map',{zoomControl:false,scrollWheelZoom:false}).setView([44.15,12.2],9);tiles(map);
 const cg=L.markerClusterGroup({showCoverageOnHover:false,maxClusterRadius:28,iconCreateFunction:c=>L.divIcon({className:'',html:'<div class="cl">'+c.getChildCount()+'</div>',iconSize:[34,34]})}).addTo(map);
 const lbl=e=>{const d=pd(shown(e));return d.getDate()+' '+MESI[d.getMonth()]};
@@ -41,7 +42,7 @@ function render(){
  if(pts.length)map.fitBounds(pts,{padding:[30,30],maxZoom:13});
  const onMap=pts.length;
  document.getElementById('count').textContent=F.length+' eventi · '+onMap+' sulla mappa';
- document.getElementById('list').innerHTML=F.length?F.map(e=>{const d=pd(shown(e));return '<a class="row" data-id="'+e.id+'" href="evento.html?id='+encodeURIComponent(e.id)+'"><div class="dt"><b>'+d.getDate()+'</b><small>'+MESI[d.getMonth()]+'</small></div><div class="rt"><div class="rn">'+esc(e.nome)+'</div><div class="rm">'+esc(e.comune)+' · '+range(e)+'</div><div class="tags"><span class="tag">'+CAT[e.cat]+'</span><span class="tag np">Nessun parcheggio ancora</span></div></div><svg class="go" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></a>'}).join(''):'<div class="empty">Nessun evento trovato con questi filtri.</div>';
+ document.getElementById('list').innerHTML=F.length?F.map(e=>{const d=pd(shown(e));return '<a class="row" data-id="'+e.id+'" href="evento.html?id='+encodeURIComponent(e.id)+'"><div class="dt"><b>'+d.getDate()+'</b><small>'+MESI[d.getMonth()]+'</small></div><div class="rt"><div class="rn">'+esc(e.nome)+'</div><div class="rm">'+esc(e.comune)+' · '+range(e)+'</div><div class="tags"><span class="tag">'+CAT[e.cat]+'</span><span class="tag np">Nessun parcheggio ancora</span></div></div><i class="ph ph-caret-right go"></i></a>'}).join(''):'<div class="empty">Nessun evento trovato con questi filtri.</div>';
  mark();
 }
 function mark(){document.querySelectorAll('.pm').forEach(x=>x.classList.toggle('sel',x.dataset.id===sel));document.querySelectorAll('.row').forEach(x=>x.classList.toggle('sel',x.dataset.id===sel))}

@@ -11,3 +11,4 @@ const tiles=m=>L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 const TIPI={cortile:'Cortile',terreno:'Terreno',garage:'Garage',vialetto:'Vialetto'};
 // header: Accedi / Area host (DEMO login in localStorage)
 document.addEventListener('DOMContentLoaded',()=>{const a=document.getElementById('hostlnk');if(a)a.textContent=localStorage.getItem('pb_host')?'Area host':'Accedi'});
+const ICO={sport:'soccer-ball',fiera:'storefront',mercato:'basket',sagra:'fork-knife',concerto:'music-notes',altro:'calendar-star'};

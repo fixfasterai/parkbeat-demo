@@ -9,3 +9,5 @@ const today=new Date().toISOString().slice(0,10);
 const shown=e=>(e.da<today&&e.a>=today)?today:e.da;
 const tiles=m=>L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(m);
 const TIPI={cortile:'Cortile',terreno:'Terreno',garage:'Garage',vialetto:'Vialetto'};
+// header: Accedi / Area host (DEMO login in localStorage)
+document.addEventListener('DOMContentLoaded',()=>{const a=document.getElementById('hostlnk');if(a)a.textContent=localStorage.getItem('pb_host')?'Area host':'Accedi'});

@@ -60,8 +60,9 @@
 <div class="scr" data-s="5"><section class="band w"><div class="in okc">
  <div class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M5 12l5 5 9-10"/></svg></div>
  <h1>Il tuo posto è online!</h1><p class="sub" id="okt"></p>
- <a class="btn" id="okb" href="./">Vedi il tuo posto sull'evento</a>
- <p class="fine" style="margin-top:16px">Per ricevere i pagamenti: <a href="#iban" style="color:var(--acc);font-weight:600">Aggiungi l'IBAN</a> (anche più tardi)</p>
+ <a class="btn" href="host.html">Vai alla tua area</a>
+ <p style="margin:14px 0 0"><a id="okb" href="./" style="font-weight:600">Vedi il tuo posto sull'evento</a></p>
+ <p class="fine" style="margin-top:16px">Per ricevere i pagamenti: <a href="host.html#pay" style="color:var(--acc);font-weight:600">Aggiungi l'IBAN</a> (anche più tardi)</p>
 </div></section></div>
 
 <div class="bar" id="bar"><div class="in"><button class="bk" id="bk" type="button">Indietro</button><button class="nx" id="nx" type="button">Avanti</button></div></div>
@@ -104,6 +105,8 @@ $('nx').onclick=()=>{if(!valid())return;if(s===3)$('otpTo').textContent='Inviato
  // DEMO: nessun invio, salva in localStorage
  const ll=pin.getLatLng(),rec={evento:ev.id,indirizzo:$('ind').value.trim(),lat:ll.lat,lon:ll.lng,posti,prezzo,nome:$('nome').value.trim(),tel:$('tel').value.trim(),email:$('email').value.trim(),creato:new Date().toISOString()};
  const all=JSON.parse(localStorage.getItem('pb_posti')||'[]');all.push(rec);localStorage.setItem('pb_posti',JSON.stringify(all));
+ // DEMO: login automatico dopo verifica SMS
+ localStorage.setItem('pb_host',JSON.stringify({tel:rec.tel,nome:rec.nome}));
  $('okt').textContent=posti+' posti a '+prezzo+' € per '+ev.nome+' ('+fd(shown(ev))+').';
  $('okb').href='evento.html?id='+encodeURIComponent(ev.id);s=5;ui()};
 $('bk').onclick=()=>{if(s>0){s--;ui()}};

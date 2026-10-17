@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><link rel="stylesheet" href="style.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="data.js"></script><script src="common.js"></script>
 </head><body>
-<header class="hdr"><div class="in"><a class="brand" href="./"><span class="mark">P</span>ParkBeat</a><a class="lnk" href="./">‹ Tutti gli eventi</a></div></header>
+<header class="hdr"><div class="in"><a class="brand" href="./"><span class="mark">P</span>ParkBeat</a><span style="display:flex;gap:16px"><a class="lnk" href="./">‹ Eventi</a><a class="lnk" id="hostlnk" href="host.html" style="color:#CE147D">Accedi</a></span></div></header>
 <main id="m"></main>
 <script>
 const id=new URLSearchParams(location.search).get('id');const e=window.EVENTI.find(x=>x.id===id);const M=document.getElementById('m');

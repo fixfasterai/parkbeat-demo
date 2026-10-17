@@ -8,3 +8,4 @@ const today=new Date().toISOString().slice(0,10);
 // date shown: start, or today if ongoing
 const shown=e=>(e.da<today&&e.a>=today)?today:e.da;
 const tiles=m=>L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(m);
+const TIPI={cortile:'Cortile',terreno:'Terreno',garage:'Garage',vialetto:'Vialetto'};

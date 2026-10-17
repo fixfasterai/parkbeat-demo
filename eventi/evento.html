@@ -15,8 +15,13 @@ M.innerHTML=`<img class="hero" src="img/placeholder_${e.cat}.svg" alt="${CAT[e.c
 <section class="band w"><div class="in"><div class="tags" style="margin:0 0 10px"><span class="tag">${CAT[e.cat]}</span>${e.ver?'':'<span class="tag">Da verificare</span>'}</div>
 <h1>Parcheggi per ${esc(e.nome)}</h1><div class="meta"><span>${range(e)}</span><span>${esc(e.comune)} (${esc(e.prov)})</span></div>${e.luogo?`<p class="sub" style="margin-top:6px">${esc(e.luogo)}</p>`:''}</div></section>
 ${e.lat!=null?'<section class="band flush"><div id="map" class="map" style="height:300px"></div></section>':''}
-<section class="band g es"><div class="in"><h2>Non ci sono ancora parcheggi per questo evento.</h2><p class="sub">Abiti vicino? Crea il tuo posto e guadagna.</p><a class="btn" href="#host">Inserisci il tuo posto</a></div></section>
+<section class="band g es"><div class="in" id="es"><h2>Non ci sono ancora parcheggi per questo evento.</h2><p class="sub">Abiti vicino? Crea il tuo posto e guadagna.</p><a class="btn" href="crea.html?evento=${encodeURIComponent(e.id)}">Inserisci il tuo posto</a></div></section>
 <section class="band w"><div class="in">${e.url?`<a class="src" href="${esc(e.url)}" target="_blank" rel="noopener"><span>Fonte ufficiale<small>${esc(e.fonte||new URL(e.url).hostname)}</small></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#666A73" stroke-width="2.2"><path d="M7 17L17 7M9 7h8v8"/></svg></a>`:'<span class="sub">Fonte ufficiale non disponibile</span>'}</div></section>
 <section class="band g"><div class="in foot">ParkBeat · Demo</div></section>`;
-if(e.lat!=null){const map=L.map('map',{zoomControl:false,scrollWheelZoom:false}).setView([e.lat,e.lon],15);tiles(map);L.marker([e.lat,e.lon],{icon:L.divIcon({className:'',html:'<div class="ev"></div>',iconSize:[0,0]})}).addTo(map)}}
+if(e.lat!=null){const map=L.map('map',{zoomControl:false,scrollWheelZoom:false}).setView([e.lat,e.lon],15);tiles(map);L.marker([e.lat,e.lon],{icon:L.divIcon({className:'',html:'<div class="ev"></div>',iconSize:[0,0]})}).addTo(map);window._map=map}
+// DEMO: mostra il posto salvato in localStorage da crea.html
+const mine=JSON.parse(localStorage.getItem('pb_posti')||'[]').filter(p=>p.evento===e.id);
+if(mine.length){const p=mine[mine.length-1];document.getElementById('es').innerHTML=`<h2>1 parcheggio disponibile</h2><p class="sub">Il tuo posto (demo, salvato solo su questo dispositivo).</p><div class="row" style="border:0"><div class="dt" style="background:#fff"><b>${p.posti}</b><small>posti</small></div><div class="rt"><div class="rn">${esc(TIPI[p.tipo]||p.tipo)} · ${esc(p.indirizzo)}</div><div class="tags"><span class="tag np">In attivazione</span></div></div><b style="font-size:19px">${p.prezzo} €</b></div><a class="btn" href="crea.html?evento=${encodeURIComponent(e.id)}">Inserisci un altro posto</a>`;
+ if(window._map&&p.lat){L.marker([p.lat,p.lon],{icon:L.divIcon({className:'',html:'<div class="pm sel">'+p.prezzo+' €</div>',iconSize:[0,0]})}).addTo(window._map);window._map.fitBounds([[e.lat,e.lon],[p.lat,p.lon]],{padding:[60,60],maxZoom:16})}}
+}
 </script></body></html>

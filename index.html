@@ -82,7 +82,7 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 :root{--font-body:'Figtree',system-ui,sans-serif;--font-display:'Figtree',system-ui,sans-serif;--canvas:#F1F2F4;--ink:#14161B;--body:#2A2D34;--mute:#666A73;--faint:#C3C6CD;--hairline:#E3E5E9;--hairline-strong:#CFD2D8;--surface-soft:#E4E6EA;--card:#FFFFFF;--scrim:rgba(18,20,26,.42);
---accent:#E5534B;--accent-ink:#fff;--accent-text:#C0463F;--accent-tint:rgba(229,83,75,.12);--r-card:22px;--r-sheet:28px;--r-tile:16px;--r-input:16px;--r-photo:18px;
+--accent:#CE147D;--accent-ink:#fff;--accent-text:#C0136F;--accent-tint:rgba(206,20,125,.12);--accent-glow:rgba(206,20,125,.42);--danger:#E5534B;--danger-text:#C0463F;--danger-tint:rgba(229,83,75,.13);--r-card:22px;--r-sheet:28px;--r-tile:16px;--r-input:16px;--r-photo:18px;
 --map-bg:#E5E7EB;--map-block:#F1F2F4;--map-road:#FFFFFF;--map-park:#DAE9CF;--map-park-line:#AECCA0;--map-water:#CCE1EC;--sh:0 1px 2px rgba(20,22,27,.04)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{margin:0;color:var(--ink);font-family:var(--font-body);-webkit-font-smoothing:antialiased;background:radial-gradient(120% 40% at 0% -6%,color-mix(in srgb,var(--accent) 16%,transparent),transparent 55%),linear-gradient(180deg,color-mix(in srgb,var(--accent) 6%,#F1F2F4) 0,#F1F2F4 420px) no-repeat,var(--canvas)}
@@ -109,7 +109,7 @@ h3{font-size:20px;font-weight:600;letter-spacing:-.3px;margin:30px 0 12px}
 .area .t{flex:1;min-width:0}.area .n{font-weight:600;font-size:16px}.area .d{font-size:14px;color:var(--mute);margin-top:2px}
 .chips{display:flex;gap:8px;align-items:center;margin-top:7px;flex-wrap:wrap}.chip{font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--surface-soft);color:#565A63}
 .walk{font-size:13px;color:var(--mute);display:inline-flex;gap:4px;align-items:center}
-.rt{text-align:right}.pr{font-weight:700;font-size:19px}.left{font-size:12.5px;color:var(--mute);margin-top:3px;white-space:nowrap}.left.low{color:var(--accent-text);font-weight:600}
+.rt{text-align:right}.pr{font-weight:700;font-size:19px}.left{font-size:12.5px;color:var(--mute);margin-top:3px;white-space:nowrap}.left.low{color:var(--danger-text);font-weight:600}
 .radio{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--hairline-strong);flex:none;margin-top:11px}.area.sel .radio{border:7px solid var(--ink)}
 label{display:block;font-size:14px;font-weight:600;margin:16px 0 8px}label:first-child{margin-top:0}label small{color:var(--mute);font-weight:400}
 input,select{width:100%;font:inherit;font-size:17px;padding:15px 16px;border-radius:var(--r-input);border:1px solid var(--hairline-strong);background:#fff;color:var(--ink);outline:none;appearance:none}
@@ -143,7 +143,7 @@ input:focus,select:focus{border-color:var(--ink)}#plate{font-family:ui-monospace
 <rect x="126" y="68" width="120" height="82" rx="6" fill="#DAE9CF" stroke="#AECCA0"/>
 <g stroke="#fff" stroke-width="14"><path d="M0 60 H400"/><path d="M118 0 V150"/><path d="M254 0 V150"/></g>
 <path d="M0 60 H400" stroke="#C4C7CE" stroke-width="1.2" stroke-dasharray="6 6"/>
-<circle cx="186" cy="108" r="22" fill="#E5534B" opacity=".14"/><circle cx="186" cy="108" r="8" fill="#E5534B" stroke="#fff" stroke-width="3"/>
+<circle cx="186" cy="108" r="22" fill="#CE147D" opacity=".14"/><circle cx="186" cy="108" r="8" fill="#CE147D" stroke="#fff" stroke-width="3"/>
 <g font-family="Figtree" font-weight="700" font-size="12"><g transform="translate(60 92)"><rect x="-20" y="-13" width="40" height="26" rx="13" fill="#fff"/><text text-anchor="middle" y="4" fill="#14161B">6€</text></g>
 <g transform="translate(320 30)"><rect x="-20" y="-13" width="40" height="26" rx="13" fill="#fff"/><text text-anchor="middle" y="4" fill="#14161B">5€</text></g>
 <g transform="translate(330 110)"><rect x="-20" y="-13" width="40" height="26" rx="13" fill="#14161B"/><text text-anchor="middle" y="4" fill="#fff">8€</text></g></g></svg>

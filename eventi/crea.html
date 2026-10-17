@@ -5,63 +5,61 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><link rel="stylesheet" href="style.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="data.js"></script><script src="common.js"></script>
 </head><body>
-<!-- DEMO: nessun backend. Flusso a step, validazione lato client, salvataggio in localStorage ('pb_posti'). -->
+<!-- DEMO: nessun backend, SMS simulato (codice 123456). Flusso a step, validazione lato client, salvataggio in localStorage ('pb_posti'). -->
 <header class="hdr"><div class="in"><a class="brand" href="./"><span class="mark">P</span>ParkBeat</a><a class="lnk" href="./">Esci</a></div><div class="prog"><i id="pg"></i></div></header>
 <section class="band g" id="evb" style="padding-top:14px;padding-bottom:14px"><div class="in evh" id="evh"></div></section>
 
 <div class="scr" data-s="0">
  <section class="band w"><div class="in">
-  <h1>Guadagna con il tuo spazio</h1><p class="sub">Metti a disposizione cortile, terreno, garage o vialetto a chi va all'evento. Decidi tu prezzo e posti.</p>
+  <h1>Guadagna con il tuo spazio</h1><p class="sub">Affitta il tuo posto auto a chi va all'evento. Prezzo e posti li decidi tu.</p>
   <div id="evpick"><label class="lbl" for="evq" style="margin-top:20px">Per quale evento?</label><input id="evq" list="evl" placeholder="Cerca evento, comune o data" autocomplete="off"><datalist id="evl"></datalist><div class="err">Scegli un evento dall'elenco</div></div>
  </div></section>
- <section class="band g"><div class="in"><div class="earn"><span>4 posti × 6 €, per evento</span><b>19 €</b></div><p class="fine">Stima al netto della commissione ParkBeat del 20%. Iscrizione gratuita.</p></div></section>
+ <section class="band g"><div class="in"><div class="earn"><span>4 posti × 6 €</span><b>19 €</b></div><p class="fine">Al netto del 20% di commissione. Iscrizione gratis.</p></div></section>
 </div>
 
-<div class="scr" data-s="1"><section class="band w"><div class="in">
- <h2 class="q">Che tipo di spazio offri?</h2><p class="sub">Scegline uno.</p>
- <div class="tiles" id="tipo">
-  <button type="button" class="tile" data-v="cortile"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-7 9 7v9H3z"/><path d="M8 20v-5h8v5"/></svg><div><b>Cortile</b><span>Spazio privato recintato</span></div></button>
-  <button type="button" class="tile" data-v="terreno"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 19h20M5 19c1-5 3-8 7-8s6 3 7 8"/><path d="M12 11V5M9 7l3-2 3 2"/></svg><div><b>Terreno</b><span>Prato o area sterrata</span></div></button>
-  <button type="button" class="tile" data-v="garage"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 20V9l9-5 9 5v11"/><path d="M7 20v-8h10v8M7 15h10"/></svg><div><b>Garage</b><span>Box coperto</span></div></button>
-  <button type="button" class="tile" data-v="vialetto"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 21l2-18M16 21l-2-18M12 6v2M12 11v2M12 16v2"/></svg><div><b>Vialetto</b><span>Accesso o passo carraio</span></div></button>
- </div></div></section></div>
-
-<div class="scr" data-s="2">
+<div class="scr" data-s="1">
  <section class="band w"><div class="in">
-  <h2 class="q">Dove si trova?</h2><p class="sub">L'indirizzo esatto viene mostrato solo a chi prenota.</p>
+  <h2 class="q">Dov'è il posto?</h2><p class="sub">L'indirizzo lo vede solo chi prenota.</p>
   <div id="fInd" style="margin-top:16px"><div class="arow"><input id="ind" placeholder="Via e numero civico, comune" autocomplete="street-address"><button type="button" id="geo">Cerca</button></div><div class="err">Inserisci l'indirizzo</div></div>
-  <p class="fine" id="geoMsg">Poi trascina il pin sull'ingresso.</p>
+  <p class="fine" id="geoMsg">Poi sposta il pin sull'ingresso.</p>
  </div></section>
  <section class="band flush"><div id="map" class="map" style="height:380px"></div></section>
 </div>
 
-<div class="scr" data-s="3">
+<div class="scr" data-s="2">
  <section class="band w"><div class="in">
-  <h2 class="q">Quanti posti e a che prezzo?</h2><p class="sub">Puoi cambiarli in ogni momento.</p>
+  <h2 class="q">Posti e prezzo</h2><p class="sub">Puoi cambiarli quando vuoi.</p>
   <div style="margin-top:10px">
-   <div class="stp"><div><b>Posti auto</b><span>Auto che entrano comodamente</span></div><div class="ctr"><button type="button" data-k="posti" data-d="-1">−</button><output id="oPo"></output><button type="button" data-k="posti" data-d="1">+</button></div></div>
-   <div class="stp"><div><b>Prezzo per auto</b><span>Media in zona 5–8 €</span></div><div class="ctr"><button type="button" data-k="prezzo" data-d="-1">−</button><output id="oPr"></output><button type="button" data-k="prezzo" data-d="1">+</button></div></div>
+   <div class="stp"><div><b>Posti auto disponibili</b></div><div class="ctr"><button type="button" data-k="posti" data-d="-1">−</button><output id="oPo"></output><button type="button" data-k="posti" data-d="1">+</button></div></div>
+   <div class="stp"><div><b>Prezzo per auto</b><span>In zona 5–8 €</span></div><div class="ctr"><button type="button" data-k="prezzo" data-d="-1">−</button><output id="oPr"></output><button type="button" data-k="prezzo" data-d="1">+</button></div></div>
   </div></div></section>
  <section class="band g"><div class="in"><div class="earn"><span>Guadagni circa</span><b id="eR"></b></div><p class="fine" id="eF"></p></div></section>
 </div>
 
-<div class="scr" data-s="4"><section class="band w"><div class="in">
- <h2 class="q">Come ti contattiamo?</h2><p class="sub">Ti chiamiamo per attivare il posto.</p>
+<div class="scr" data-s="3"><section class="band w"><div class="in">
+ <h2 class="q">I tuoi contatti</h2><p class="sub">Ti inviamo un SMS per verificare il numero.</p>
  <div id="fNo"><label class="lbl" for="nome" style="margin-top:18px">Nome e cognome</label><input id="nome" autocomplete="name"><div class="err">Inserisci il tuo nome</div></div>
  <div id="fTe"><label class="lbl" for="tel">Telefono</label><input id="tel" type="tel" autocomplete="tel" placeholder="+39 333 123 4567"><div class="err">Numero non valido</div></div>
  <div id="fEm"><label class="lbl" for="email">Email</label><input id="email" type="email" autocomplete="email"><div class="err">Email non valida</div></div>
- <div id="fPv"><label class="chk"><input type="checkbox" id="priv"><span>Acconsento al trattamento dei dati secondo l'informativa privacy.</span></label><div class="err">Serve il consenso</div></div>
+ <div id="fPv"><label class="chk"><input type="checkbox" id="priv"><span>Accetto l'informativa privacy.</span></label><div class="err">Serve il consenso</div></div>
+</div></section></div>
+
+<div class="scr" data-s="4"><section class="band w"><div class="in">
+ <h2 class="q">Inserisci il codice che ti abbiamo inviato via SMS</h2><p class="sub" id="otpTo"></p>
+ <div id="fOt" style="margin-top:18px"><input id="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="••••••" style="font-size:28px;letter-spacing:10px;text-align:center;font-weight:700"><div class="err">Codice non valido</div></div>
+ <p class="fine">Demo: usa 123456 · <a href="#" id="resend">Invia di nuovo</a></p>
 </div></section></div>
 
 <div class="scr" data-s="5"><section class="band w"><div class="in okc">
  <div class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M5 12l5 5 9-10"/></svg></div>
- <h1>Grazie! Ti contatteremo per attivare il posto</h1><p class="sub" id="okt"></p>
+ <h1>Il tuo posto è online!</h1><p class="sub" id="okt"></p>
  <a class="btn" id="okb" href="./">Vedi il tuo posto sull'evento</a>
+ <p class="fine" style="margin-top:16px">Per ricevere i pagamenti: <a href="#iban" style="color:var(--acc);font-weight:600">Aggiungi l'IBAN</a> (anche più tardi)</p>
 </div></section></div>
 
 <div class="bar" id="bar"><div class="in"><button class="bk" id="bk" type="button">Indietro</button><button class="nx" id="nx" type="button">Avanti</button></div></div>
 <script>
-const $=id=>document.getElementById(id),N=4;let s=0,tipo=null,posti=4,prezzo=6,placed=false;
+const $=id=>document.getElementById(id),N=4;let s=0,posti=4,prezzo=6,placed=false;
 const up=window.EVENTI.filter(e=>(e.a||e.da)>=today).sort((a,b)=>shown(a).localeCompare(shown(b)));
 const lab=e=>fd(shown(e))+' · '+e.nome+' · '+e.comune;
 $('evl').innerHTML=up.map(e=>'<option value="'+esc(lab(e))+'">').join('');
@@ -72,9 +70,8 @@ function showEv(){$('evb').style.display=ev?'':'none';$('evpick').style.display=
  $('evh').innerHTML='<div class="dt"><b>'+d.getDate()+'</b><small>'+MESI[d.getMonth()]+'</small></div><div><div class="k">Parcheggio per</div><div class="n">'+esc(ev.nome)+'</div><div class="m">'+range(ev)+' · '+esc(ev.comune)+'</div></div>';
  if(ev.lat!=null&&!placed){map.setView([ev.lat,ev.lon],15);pin.setLatLng([ev.lat,ev.lon])}}
 $('evq').addEventListener('input',()=>{const e=up.find(e=>lab(e)===$('evq').value);if(e){ev=e;$('evpick').classList.remove('bad');showEv()}});
-document.querySelectorAll('.tile').forEach(t=>t.onclick=()=>{tipo=t.dataset.v;document.querySelectorAll('.tile').forEach(x=>x.classList.toggle('on',x===t));ui()});
 const eur=n=>Math.round(n).toLocaleString('it-IT')+' €';
-function est(){$('oPo').textContent=posti;$('oPr').textContent=prezzo+' €';const g=posti*prezzo;$('eR').textContent=eur(g*.8)+' a evento';$('eF').textContent=posti+' × '+prezzo+' € = '+eur(g)+', meno 20% di commissione ('+eur(g*.2)+').'}
+function est(){$('oPo').textContent=posti;$('oPr').textContent=prezzo+' €';const g=posti*prezzo;$('eR').textContent=eur(g*.8)+' a evento';$('eF').textContent=posti+' × '+prezzo+' € = '+eur(g)+', meno 20% di commissione.'}
 document.querySelectorAll('.ctr button').forEach(b=>b.onclick=()=>{const d=+b.dataset.d;if(b.dataset.k==='posti')posti=Math.min(50,Math.max(1,posti+d));else prezzo=Math.min(50,Math.max(1,prezzo+d));est()});est();
 pin.on('dragend',()=>{placed=true;$('geoMsg').textContent='Posizione impostata.'});map.on('click',x=>{pin.setLatLng(x.latlng);placed=true});
 async function geocode(){const q=$('ind').value.trim();if(!q)return;$('geoMsg').textContent='Cerco…';
@@ -86,19 +83,21 @@ async function geocode(){const q=$('ind').value.trim();if(!q)return;$('geoMsg').
   if(j[0]){const ll=[+j[0].lat,+j[0].lon];pin.setLatLng(ll);map.setView(ll,17);placed=true;$('geoMsg').textContent='Trovato. Trascina il pin sull\'ingresso se serve.'}else $('geoMsg').textContent='Non trovato: tocca la mappa per posizionare il pin.'}
  catch(e){$('geoMsg').textContent='Ricerca non disponibile: tocca la mappa per posizionare il pin.'}}
 $('geo').onclick=geocode;$('ind').addEventListener('keydown',x=>{if(x.key==='Enter'){x.preventDefault();geocode()}});
-function ui(){document.querySelectorAll('.scr').forEach(x=>x.classList.toggle('on',+x.dataset.s===s));$('pg').style.width=(s/N*100)+'%';
+function ui(){document.querySelectorAll('.scr').forEach(x=>x.classList.toggle('on',+x.dataset.s===s));$('pg').style.width=(Math.min(s,N)/N*100)+'%';
  $('bk').style.visibility=s>0&&s<5?'visible':'hidden';$('bar').style.display=s===5?'none':'';
- $('nx').textContent=s===0?'Inizia':s===N?'Pubblica il mio posto':'Avanti';$('nx').disabled=(s===1&&!tipo);
- if(s===2)setTimeout(()=>map.invalidateSize(),0);scrollTo(0,0)}
+ $('nx').textContent=s===0?'Inizia':s===3?'Pubblica il mio posto':s===4?'Verifica':'Avanti';
+ if(s===1)setTimeout(()=>map.invalidateSize(),0);scrollTo(0,0)}
 const ok=(id,c)=>{$(id).classList.toggle('bad',!c);return c};
-function valid(){if(s===0)return ok('evpick',!!ev);if(s===1)return !!tipo;if(s===2)return ok('fInd',$('ind').value.trim().length>3);
- if(s===4){const a=[ok('fNo',$('nome').value.trim().length>1),ok('fTe',/^\+?[\d\s]{8,16}$/.test($('tel').value.trim())),ok('fEm',/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test($('email').value.trim())),ok('fPv',$('priv').checked)];return a.every(Boolean)}return true}
-$('nx').onclick=()=>{if(!valid())return;if(s<N){s++;ui();return}
+function valid(){if(s===0)return ok('evpick',!!ev);if(s===1)return ok('fInd',$('ind').value.trim().length>3);
+ if(s===3){const a=[ok('fNo',$('nome').value.trim().length>1),ok('fTe',/^\+?[\d\s\-.\/]{8,18}$/.test($('tel').value.trim())&&$('tel').value.replace(/\D/g,'').length>=9&&/./.test($('tel').value.trim())),ok('fEm',/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test($('email').value.trim())),ok('fPv',$('priv').checked)];return a.every(Boolean)}if(s===4)return ok('fOt',$('otp').value.trim()==='123456');return true}
+$('nx').onclick=()=>{if(!valid())return;if(s===3)$('otpTo').textContent='Inviato al '+$('tel').value.trim()+'.';if(s<4){s++;ui();if(s===4)setTimeout(()=>$('otp').focus(),50);return}
+ // DEMO: SMS simulato, codice fisso 123456
  // DEMO: nessun invio, salva in localStorage
- const ll=pin.getLatLng(),rec={evento:ev.id,tipo,indirizzo:$('ind').value.trim(),lat:ll.lat,lon:ll.lng,posti,prezzo,nome:$('nome').value.trim(),tel:$('tel').value.trim(),email:$('email').value.trim(),creato:new Date().toISOString()};
+ const ll=pin.getLatLng(),rec={evento:ev.id,indirizzo:$('ind').value.trim(),lat:ll.lat,lon:ll.lng,posti,prezzo,nome:$('nome').value.trim(),tel:$('tel').value.trim(),email:$('email').value.trim(),creato:new Date().toISOString()};
  const all=JSON.parse(localStorage.getItem('pb_posti')||'[]');all.push(rec);localStorage.setItem('pb_posti',JSON.stringify(all));
- $('okt').textContent=TIPI[tipo]+' · '+posti+' posti a '+prezzo+' € per '+ev.nome+' ('+fd(shown(ev))+'). Ti scriveremo a '+rec.email+'.';
+ $('okt').textContent=posti+' posti a '+prezzo+' € per '+ev.nome+' ('+fd(shown(ev))+').';
  $('okb').href='evento.html?id='+encodeURIComponent(ev.id);s=5;ui()};
 $('bk').onclick=()=>{if(s>0){s--;ui()}};
+$('resend').onclick=x=>{x.preventDefault();$('otpTo').textContent='Nuovo codice inviato al '+$('tel').value.trim()+'.'};
 showEv();ui();
 </script></body></html>
